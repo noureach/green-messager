@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "813080681649",
+    "firebase_url": "https://greenmessenger-3f7fd.firebaseio.com",
+    "project_id": "greenmessenger-3f7fd",
+    "storage_bucket": "greenmessenger-3f7fd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:813080681649:android:d9e55a4e76816eecdd5690",
+        "android_client_info": {
+          "package_name": "com.noureach.greenmessenger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "813080681649-i4cl8mhvmbk0pfc3bcbl7i0arbeqso83.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAah6lie2KHmD9X35nHq8yReQTE7bSMyKE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "813080681649-i4cl8mhvmbk0pfc3bcbl7i0arbeqso83.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
