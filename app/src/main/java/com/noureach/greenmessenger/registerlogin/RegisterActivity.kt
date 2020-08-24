@@ -87,7 +87,7 @@ class RegisterActivity : AppCompatActivity() {
 
         //check the email and password whether use input or not
         if (email.isEmpty() || password.isEmpty()){
-            //show interface message "Please enter email and password!"
+            //show toast message "Please enter email and password!"
             Toast.makeText(this, "Please enter email and password!", Toast.LENGTH_SHORT).show()
             //provide user can input again
             return
