@@ -40,7 +40,6 @@ class ChatLogActivity : AppCompatActivity() {
         toUser = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
         supportActionBar?.title = toUser?.username
 
-        //setupDummyData()
         listenForMessage()
 
         send_button_chat_log.setOnClickListener {
