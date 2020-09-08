@@ -26,6 +26,7 @@ class LatestMessageRow(val chatMessage: ChatMessage): Item<ViewHolder>(){
         viewHolder.itemView.message_textview_latest_message.text = chatMessage.text
 
         val chatPartnerId: String
+
         if (chatMessage.fromId == FirebaseAuth.getInstance().uid){
             chatPartnerId = chatMessage.toId
         }else{

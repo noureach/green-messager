@@ -44,7 +44,7 @@ class NewMessageActivity : AppCompatActivity() {
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
-                //use GroupAdapter<ViewHolder>() to bind data into ViewHolder
+                //use GroupAdapter<ViewHolder>() to bind data into ViewHolder = adapter
                 val adapter = GroupAdapter<ViewHolder>()
 
                 //A DataSnapshot contains data from a Database location
@@ -52,7 +52,7 @@ class NewMessageActivity : AppCompatActivity() {
                 //use forEach to read child node one at the time
                 snapshot.children.forEach {
                     Log.d("NewMessage", it.toString())
-                    //it.getValue used to marshall the data contained in this snapshot into a User class
+                    //it.getValue used to marshall the data contained in this snapshot into User class
                     val user = it.getValue(User::class.java)
                     //check if the data that received is non-null
                     if (user!=null){
@@ -63,7 +63,7 @@ class NewMessageActivity : AppCompatActivity() {
                 //setOnItemClickListener to each items list in recyclerView once we click
                 adapter.setOnItemClickListener { item, view ->
 
-                    //declare parameter item as UserItem class = userItem
+                    //make parameter item = parameter user from UserItem class = userItem
                     val userItem = item as UserItem
 
                     //show ChatLogActivity once we click on each user in recycler view
@@ -75,7 +75,7 @@ class NewMessageActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
 
-                //connect adapter with recycler view
+                //connect adapter with recycler view new message
                 recyclerview_newmessage.adapter = adapter
                 //add line of each item list in recycler view
                 recyclerview_newmessage.addItemDecoration(DividerItemDecoration(this@NewMessageActivity, DividerItemDecoration.VERTICAL))
