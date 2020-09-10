@@ -12,6 +12,7 @@ import com.google.firebase.database.*
 import com.noureach.greenmessenger.R
 import com.noureach.greenmessenger.models.ChatMessage
 import com.noureach.greenmessenger.models.User
+import com.noureach.greenmessenger.registerlogin.ProfileUserActivity
 import com.noureach.greenmessenger.registerlogin.RegisterActivity
 import com.noureach.greenmessenger.views.LatestMessageRow
 import com.squareup.picasso.Picasso
@@ -27,6 +28,8 @@ class LatestMessagesActivity : AppCompatActivity() {
         var currentUser: User? = null
     }
 
+    private val adapter = GroupAdapter<ViewHolder>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_latest_messages)
@@ -34,22 +37,17 @@ class LatestMessagesActivity : AppCompatActivity() {
         recyclerview_latest_messages.adapter = adapter
         recyclerview_latest_messages.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
-        adapter.setOnItemClickListener { item, view ->
+        adapter.setOnItemClickListener { item, _ ->
             val intent = Intent(this, ChatLogActivity::class.java)
 
             val row = item as LatestMessageRow
             intent.putExtra(NewMessageActivity.USER_KEY, row.chatPartnerUser)
-
             startActivity(intent)
         }
-
         listenForLatestMessages()
-
         fetchCurrentUser()
-
         verifyUserIsLoggedIn()
     }
-
     val latestMessagesMap = HashMap<String, ChatMessage>()
 
     private fun refreshRecyclerViewMessages(){
@@ -76,22 +74,14 @@ class LatestMessagesActivity : AppCompatActivity() {
                 latestMessagesMap[snapshot.key!!] = chatMessage
                 refreshRecyclerViewMessages()
             }
-
             override fun onCancelled(error: DatabaseError) {
-
             }
-
             override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-
             }
-
             override fun onChildRemoved(snapshot: DataSnapshot) {
-
             }
-
         })
     }
-    val adapter = GroupAdapter<ViewHolder>()
 
     private fun fetchCurrentUser(){
         val uid = FirebaseAuth.getInstance().uid
@@ -123,7 +113,11 @@ class LatestMessagesActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item?.itemId){
+        when (item.itemId){
+            R.id.menu_profile ->{
+                val intent = Intent(this, ProfileUserActivity::class.java)
+                startActivity(intent)
+            }
             R.id.menu_new_message ->{
                 val intent = Intent(this, NewMessageActivity::class.java)
                 startActivity(intent)

@@ -1,8 +1,10 @@
 package com.noureach.greenmessenger.messages
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
@@ -11,6 +13,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.noureach.greenmessenger.R
 import com.noureach.greenmessenger.models.ChatMessage
 import com.noureach.greenmessenger.models.User
+import com.noureach.greenmessenger.registerlogin.ProfileUserActivity
 import com.noureach.greenmessenger.views.ChatFromItem
 import com.noureach.greenmessenger.views.ChatToItem
 import com.squareup.picasso.Picasso
@@ -93,6 +96,12 @@ class ChatLogActivity : AppCompatActivity() {
                         adapter.add(ChatFromItem(chatMessage.text, toUser!!))
                     }
                 }
+
+                adapter.setOnItemClickListener { item, view ->
+                    Log.d(TAG, "item clicked")
+                    val intent = Intent(view.context, ProfileUserActivity::class.java)
+                    startActivity(intent)
+                }
                 //when open ChatLog we will the latest message
                 recyclerview_chatlog.scrollToPosition(adapter.itemCount -1)
             }
@@ -128,27 +137,33 @@ class ChatLogActivity : AppCompatActivity() {
 
         //call fun ChatMessage = chatMessage
         val chatMessage = ChatMessage(reference.key!!, text, fromId, toId, System.currentTimeMillis()/1000)
-        //write all value and data from ChatMessage into firebase database
-        //set:	Write or replace data to a defined path, like messages/users/<username>
-        reference.setValue(chatMessage)
+        if (text.isEmpty()){
+            Toast.makeText(this, "Please enter message", Toast.LENGTH_SHORT).show()
+            return
+        }else{
+            //write all value and data from ChatMessage into firebase database
+            //set:	Write or replace data to a defined path, like messages/users/<username>
+            reference.setValue(chatMessage)
                 //addOnSuccessListener to write more code when data set into firebase successfully
-            .addOnSuccessListener {
-                Log.d(TAG, "Saved our message: ${reference.key}")
-                //clear enter_message_edit_text_chat_log when we click send button
-                enter_message_edit_text_chat_log.text.clear()
-                //see the message that we send when we click button send
-                recyclerview_chatlog.scrollToPosition(adapter.itemCount -1)
-            }
-        //write all value and data from ChatMessage into firebase database in node toId to fromId
-        toReference.setValue(chatMessage)
+                .addOnSuccessListener {
+                    Log.d(TAG, "Saved our message: ${reference.key}")
+                    //clear enter_message_edit_text_chat_log when we click send button
+                    enter_message_edit_text_chat_log.text.clear()
+                    //see the message that we send when we click button send
+                    recyclerview_chatlog.scrollToPosition(adapter.itemCount -1)
+                }
+            //write all value and data from ChatMessage into firebase database in node toId to fromId
+            toReference.setValue(chatMessage)
 
-        //create file in firebase to store latest-messages fromId to toId and toId to fromId at the same time
-        val latestMessageRef = FirebaseDatabase.getInstance().getReference("/latest-messages/$fromId/$toId")
-        //write all value and data from ChatMessage into firebase database
-        latestMessageRef.setValue(chatMessage)
+            //create file in firebase to store latest-messages fromId to toId and toId to fromId at the same time
+            val latestMessageRef = FirebaseDatabase.getInstance().getReference("/latest-messages/$fromId/$toId")
+            //write all value and data from ChatMessage into firebase database
+            latestMessageRef.setValue(chatMessage)
 
-        val latestMessageToRef = FirebaseDatabase.getInstance().getReference("/latest-messages/$toId/$fromId")
-        //write all value and data from ChatMessage into firebase database in node toId to fromId
-        latestMessageToRef.setValue(chatMessage)
+            val latestMessageToRef = FirebaseDatabase.getInstance().getReference("/latest-messages/$toId/$fromId")
+            //write all value and data from ChatMessage into firebase database in node toId to fromId
+            latestMessageToRef.setValue(chatMessage)
+        }
+
     }
 }
