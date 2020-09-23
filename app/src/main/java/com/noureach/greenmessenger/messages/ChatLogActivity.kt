@@ -1,9 +1,12 @@
 package com.noureach.greenmessenger.messages
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ChildEventListener
@@ -19,16 +22,18 @@ import com.noureach.greenmessenger.views.ChatToItem
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
+import com.xwray.groupie.OnItemClickListener
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_chat_log.*
 import kotlinx.android.synthetic.main.chat_from_row.view.*
+import kotlinx.android.synthetic.main.chat_to_row.*
 import kotlinx.android.synthetic.main.chat_to_row.view.*
 import kotlinx.android.synthetic.main.latest_message_row.*
 
 class ChatLogActivity : AppCompatActivity() {
 
     //use companion object to make val TAG static and global variable
-    companion object{
+    companion object {
         const val TAG = "Chat Log"
     }
 
@@ -64,7 +69,7 @@ class ChatLogActivity : AppCompatActivity() {
             performSendMessage()
         }
     }
-    private fun listenForMessage(){
+    private fun listenForMessage() {
         //Retrieve uid from FirebaseAuth
         val fromId = FirebaseAuth.getInstance().uid
         //user uid that we passed from NewMessageActivity when we click on that user = toId
@@ -75,48 +80,51 @@ class ChatLogActivity : AppCompatActivity() {
         val ref = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId")
 
         //retrieve List that contains all messages by collecting each messages in Child Event onChildAdded()
-        ref.addChildEventListener(object : ChildEventListener{
+        ref.addChildEventListener(object : ChildEventListener {
 
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 //snapshot.getValue used to marshall the data contained in snapshot into ChatMessage class
                 val chatMessage = snapshot.getValue(ChatMessage::class.java)
 
                 //check if the data from ChatMessage != null so we can add all that data into recyclerview ChatLog
-                if (chatMessage != null){
-                    Log.d(TAG,chatMessage.text)
+                if (chatMessage != null) {
+                    Log.d(TAG, chatMessage.text)
 
                     //check chatMessage.fromId is currentUser or not
-                    if (chatMessage.fromId == FirebaseAuth.getInstance().uid){
+                    if (chatMessage.fromId == FirebaseAuth.getInstance().uid) {
                         //retrieve currentUser to know the one who send the message
                         val currentUser = LatestMessagesActivity.currentUser ?: return
                         //add currentUser message and profile into recyclerview ChatLog
-                        adapter.add(ChatToItem(chatMessage.text,currentUser))
-                    }else{
+                        adapter.add(ChatToItem(chatMessage.text, currentUser))
+                    } else {
                         //add the user massage that we want to message(partner) into recyclerview ChatLog
                         adapter.add(ChatFromItem(chatMessage.text, toUser!!))
                     }
                 }
-
                 adapter.setOnItemClickListener { item, view ->
-                    Log.d(TAG, "item clicked")
-                    val intent = Intent(view.context, ProfileUserActivity::class.java)
+                    val intent = Intent(this@ChatLogActivity, ProfileUserActivity::class.java)
                     startActivity(intent)
+
                 }
                 //when open ChatLog we will the latest message
-                recyclerview_chatlog.scrollToPosition(adapter.itemCount -1)
+                recyclerview_chatlog.scrollToPosition(adapter.itemCount - 1)
             }
+
             override fun onCancelled(error: DatabaseError) {
             }
+
             override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
             }
+
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
             }
+
             override fun onChildRemoved(snapshot: DataSnapshot) {
             }
         })
     }
 
-    private fun performSendMessage(){
+    private fun performSendMessage() {
 
         //get text from enter_message_edit_text_chat_log
         val text = enter_message_edit_text_chat_log.text.toString()
@@ -132,15 +140,18 @@ class ChatLogActivity : AppCompatActivity() {
         //create file in firebase to store user-message fromId to toId and toId to fromId at the same time
         /*push:	Add to a list of data in the database. Every time you push a new node onto a list,
         your database generates a unique key, like messages/users/<unique-user-id>/<username>*/
-        val reference = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
-        val toReference = FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
+        val reference =
+            FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
+        val toReference =
+            FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
 
         //call fun ChatMessage = chatMessage
-        val chatMessage = ChatMessage(reference.key!!, text, fromId, toId, System.currentTimeMillis()/1000)
-        if (text.isEmpty()){
+        val chatMessage =
+            ChatMessage(reference.key!!, text, fromId, toId, System.currentTimeMillis() / 1000)
+        if (text.isEmpty()) {
             Toast.makeText(this, "Please enter message", Toast.LENGTH_SHORT).show()
             return
-        }else{
+        } else {
             //write all value and data from ChatMessage into firebase database
             //set:	Write or replace data to a defined path, like messages/users/<username>
             reference.setValue(chatMessage)
@@ -150,17 +161,19 @@ class ChatLogActivity : AppCompatActivity() {
                     //clear enter_message_edit_text_chat_log when we click send button
                     enter_message_edit_text_chat_log.text.clear()
                     //see the message that we send when we click button send
-                    recyclerview_chatlog.scrollToPosition(adapter.itemCount -1)
+                    recyclerview_chatlog.scrollToPosition(adapter.itemCount - 1)
                 }
             //write all value and data from ChatMessage into firebase database in node toId to fromId
             toReference.setValue(chatMessage)
 
             //create file in firebase to store latest-messages fromId to toId and toId to fromId at the same time
-            val latestMessageRef = FirebaseDatabase.getInstance().getReference("/latest-messages/$fromId/$toId")
+            val latestMessageRef =
+                FirebaseDatabase.getInstance().getReference("/latest-messages/$fromId/$toId")
             //write all value and data from ChatMessage into firebase database
             latestMessageRef.setValue(chatMessage)
 
-            val latestMessageToRef = FirebaseDatabase.getInstance().getReference("/latest-messages/$toId/$fromId")
+            val latestMessageToRef =
+                FirebaseDatabase.getInstance().getReference("/latest-messages/$toId/$fromId")
             //write all value and data from ChatMessage into firebase database in node toId to fromId
             latestMessageToRef.setValue(chatMessage)
         }
