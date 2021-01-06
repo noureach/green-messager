@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+    tools:context=".registerlogin.PartnerProfile">
+
+<de.hdodenhof.circleimageview.CircleImageView
+    android:id="@+id/iv_partner_profile"
+    android:layout_width="150dp"
+    android:layout_height="150dp"
+    android:layout_marginTop="16dp"
+    app:civ_border_width="4dp"
+    app:civ_border_color="@android:color/holo_green_light"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:srcCompat="@android:drawable/btn_star_big_on" />
+
+<TextView
+    android:id="@+id/tv_profile_partner_username"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="24dp"
+    android:text="Username"
+    android:textSize="22sp"
+    android:textStyle="bold"
+    android:textColor="@android:color/black"
+    app:layout_constraintEnd_toEndOf="@+id/iv_partner_profile"
+    app:layout_constraintStart_toStartOf="@+id/iv_partner_profile"
+    app:layout_constraintTop_toBottomOf="@+id/iv_partner_profile" />
+</androidx.constraintlayout.widget.ConstraintLayout>

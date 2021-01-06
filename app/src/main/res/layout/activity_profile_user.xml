@@ -7,7 +7,7 @@
     tools:context=".registerlogin.ProfileUserActivity">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/iv_user_profile"
+        android:id="@+id/iv_partner_profile"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="16dp"
@@ -19,7 +19,7 @@
         app:srcCompat="@android:drawable/btn_star_big_on" />
 
     <TextView
-        android:id="@+id/tv_profile_user_username"
+        android:id="@+id/tv_profile_partner_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -27,7 +27,7 @@
         android:textSize="22sp"
         android:textStyle="bold"
         android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="@+id/iv_user_profile"
-        app:layout_constraintStart_toStartOf="@+id/iv_user_profile"
-        app:layout_constraintTop_toBottomOf="@+id/iv_user_profile" />
+        app:layout_constraintEnd_toEndOf="@+id/iv_partner_profile"
+        app:layout_constraintStart_toStartOf="@+id/iv_partner_profile"
+        app:layout_constraintTop_toBottomOf="@+id/iv_partner_profile" />
 </androidx.constraintlayout.widget.ConstraintLayout>

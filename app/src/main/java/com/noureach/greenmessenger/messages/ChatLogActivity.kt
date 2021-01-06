@@ -101,11 +101,16 @@ class ChatLogActivity : AppCompatActivity() {
                         adapter.add(ChatFromItem(chatMessage.text, toUser!!))
                     }
                 }
-                adapter.setOnItemClickListener { item, view ->
-                    val intent = Intent(this@ChatLogActivity, ProfileUserActivity::class.java)
-                    startActivity(intent)
 
-                }
+//                adapter.setOnItemClickListener { item, _ ->
+//                    when(item){
+//                        image_view_chat_to_row ->{
+//                            val intent = Intent(this@ChatLogActivity, ProfileUserActivity::class.java)
+//                            startActivity(intent)
+//                        }
+//                        text_view_chat_to_row -> {Toast.makeText(this@ChatLogActivity,"Message to row clicked",Toast.LENGTH_SHORT).show() }
+//                    }
+//                }
                 //when open ChatLog we will the latest message
                 recyclerview_chatlog.scrollToPosition(adapter.itemCount - 1)
             }

@@ -9,10 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".registerlogin.PartnerProfile"></activity>
         <activity android:name=".registerlogin.ProfileUserActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".messages.LatestMessagesActivity"/>
+                android:value=".messages.LatestMessagesActivity" />
         </activity>
         <activity android:name=".messages.ChatLogActivity">
             <meta-data
