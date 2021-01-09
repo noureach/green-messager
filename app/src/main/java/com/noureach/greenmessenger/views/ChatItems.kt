@@ -14,7 +14,7 @@ import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.chat_from_row.view.*
 import kotlinx.android.synthetic.main.chat_to_row.view.*
 
-class ChatToItem(val text: String, val user: User): Item<ViewHolder>(){
+class ChatToItem(val text: String, private val user: User): Item<ViewHolder>(){
     override fun getLayout(): Int {
         return R.layout.chat_to_row
     }
@@ -34,14 +34,14 @@ class ChatToItem(val text: String, val user: User): Item<ViewHolder>(){
                 }
 
             text_view_chat_to_row.setOnLongClickListener {
-                Toast.makeText(context, "$text", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
                 false
                  }
             }
         }
     }
 
-class ChatFromItem(val text: String, val user: User): Item<ViewHolder>(){
+class ChatFromItem(val text: String, private val user: User): Item<ViewHolder>(){
     override fun getLayout(): Int {
         return R.layout.chat_from_row
     }
@@ -57,14 +57,13 @@ class ChatFromItem(val text: String, val user: User): Item<ViewHolder>(){
             image_view_chat_from_row.setOnClickListener {
                 val intent = Intent(context, PartnerProfile::class.java)
 
-                val item = UserItem(user)
-                intent.putExtra("Partner", item.user)
+                intent.putExtra("Partner", user)
 
                 context.startActivity(intent)
             }
 
             text_view_chat_from_row.setOnLongClickListener {
-                Toast.makeText(context, "$text", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
                 false
             }
         }
