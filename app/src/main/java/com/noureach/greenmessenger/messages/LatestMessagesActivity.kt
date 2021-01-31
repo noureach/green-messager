@@ -23,6 +23,7 @@ import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_chat_log.*
 import kotlinx.android.synthetic.main.activity_latest_messages.*
+import kotlinx.android.synthetic.main.activity_profile_user.*
 import kotlinx.android.synthetic.main.latest_message_row.view.*
 
 class LatestMessagesActivity : AppCompatActivity() {
@@ -135,7 +136,7 @@ class LatestMessagesActivity : AppCompatActivity() {
             R.id.menu_profile ->{
                 val intent = Intent(this, ProfileUserActivity::class.java)
                 startActivity(intent)
-            }
+             }
             R.id.menu_new_message ->{
                 val intent = Intent(this, NewMessageActivity::class.java)
                 startActivity(intent)

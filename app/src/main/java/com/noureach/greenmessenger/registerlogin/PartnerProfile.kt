@@ -1,13 +1,11 @@
 package com.noureach.greenmessenger.registerlogin
 
-import android.graphics.Color
-import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.google.firebase.auth.FirebaseAuth
 import com.noureach.greenmessenger.R
 import com.noureach.greenmessenger.models.User
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_partner_profile.*
 import kotlinx.android.synthetic.main.activity_profile_user.*
 
 class PartnerProfile : AppCompatActivity() {

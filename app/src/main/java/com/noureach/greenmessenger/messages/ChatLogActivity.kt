@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.ActionBar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
@@ -16,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.noureach.greenmessenger.R
 import com.noureach.greenmessenger.models.ChatMessage
 import com.noureach.greenmessenger.models.User
+import com.noureach.greenmessenger.registerlogin.PartnerProfile
 import com.noureach.greenmessenger.registerlogin.ProfileUserActivity
 import com.noureach.greenmessenger.views.ChatFromItem
 import com.noureach.greenmessenger.views.ChatToItem
@@ -26,6 +28,7 @@ import com.xwray.groupie.OnItemClickListener
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_chat_log.*
 import kotlinx.android.synthetic.main.chat_from_row.view.*
+import kotlinx.android.synthetic.main.chat_log_action_bar.*
 import kotlinx.android.synthetic.main.chat_to_row.*
 import kotlinx.android.synthetic.main.chat_to_row.view.*
 import kotlinx.android.synthetic.main.latest_message_row.*
@@ -57,7 +60,28 @@ class ChatLogActivity : AppCompatActivity() {
         and that username is the username
         that we clicked on user in NewMessageActivity
          */
-        supportActionBar?.title = toUser?.username
+        //supportActionBar?.title = toUser?.username
+
+        supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
+        supportActionBar?.setCustomView(R.layout.chat_log_action_bar)
+
+        tv_chat_log.text = toUser?.username
+        Picasso.get().load(toUser?.profileImageUrl).into(iv_chat_log)
+
+        iv_chat_log.setOnClickListener {
+            val intent = Intent(this, PartnerProfile::class.java)
+            intent.putExtra("Partner", toUser)
+            startActivity(intent)
+        }
+        tv_chat_log.setOnClickListener {
+            val intent = Intent(this, PartnerProfile::class.java)
+            intent.putExtra("Partner", toUser)
+            startActivity(intent)
+        }
+        iv_back_chat_log.setOnClickListener {
+            val intent = Intent(this, LatestMessagesActivity::class.java)
+            startActivity(intent)
+        }
 
         //call fun
         listenForMessage()
@@ -102,15 +126,6 @@ class ChatLogActivity : AppCompatActivity() {
                     }
                 }
 
-//                adapter.setOnItemClickListener { item, _ ->
-//                    when(item){
-//                        image_view_chat_to_row ->{
-//                            val intent = Intent(this@ChatLogActivity, ProfileUserActivity::class.java)
-//                            startActivity(intent)
-//                        }
-//                        text_view_chat_to_row -> {Toast.makeText(this@ChatLogActivity,"Message to row clicked",Toast.LENGTH_SHORT).show() }
-//                    }
-//                }
                 //when open ChatLog we will the latest message
                 recyclerview_chatlog.scrollToPosition(adapter.itemCount - 1)
             }

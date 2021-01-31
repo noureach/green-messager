@@ -30,6 +30,9 @@ class ChatToItem(val text: String, private val user: User): Item<ViewHolder>(){
 
             image_view_chat_to_row.setOnClickListener {
                 val intent = Intent(context, ProfileUserActivity::class.java)
+
+                //intent.putExtra("User", user)
+
                 context.startActivity(intent)
                 }
 

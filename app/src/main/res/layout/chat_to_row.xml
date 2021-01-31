@@ -12,27 +12,26 @@
         android:id="@+id/text_view_chat_to_row"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:textColor="@android:color/black"
-        android:background="@drawable/chat_to_row_shape"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/chat_bubble_to_row"
         android:maxWidth="240dp"
         android:padding="16dp"
-        android:text="This is my message"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/image_view_chat_to_row"
+        android:text="This is my messageThis is my message"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/image_view_chat_to_row"
-        app:layout_constraintTop_toTopOf="@+id/image_view_chat_to_row" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/image_view_chat_to_row"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="4dp"
         app:civ_border_color="@android:color/white"
-        app:civ_border_width="2dp"
+        app:civ_border_width="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/btn_star_big_on" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
